@@ -1,0 +1,9 @@
+bin
+obj
+*.suo
+*.user
+packages
+SqlConstantsGenerator/run-push.bat
+SqlConstantsGenerator/*.nupkg
+DbClasses/run-test-pkg-local.bat
+.vs
