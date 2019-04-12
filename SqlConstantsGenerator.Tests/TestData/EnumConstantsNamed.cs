@@ -2,8 +2,8 @@
 
 namespace SqlConstantsGenerator.Tests.TestData
 {
-	[SqlConstantContainer]
-	internal enum EnumConstants
+	[SqlConstantContainer(ViewName = "enum_constants_named")]
+	internal enum EnumConstantsNamed
 	{
 		[SqlConstant] Value0 = 0,
 		[SqlConstant] Value1 = 1,

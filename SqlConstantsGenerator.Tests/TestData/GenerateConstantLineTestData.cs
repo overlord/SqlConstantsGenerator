@@ -6,7 +6,7 @@ using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.Tests.TestData
 {
-	public class GenerateConstantLineTestData
+	internal class GenerateConstantLineTestData
 	{
 		public static readonly IEnumerable TestCases =
 			new (MemberInfo Property, string Expected)[]

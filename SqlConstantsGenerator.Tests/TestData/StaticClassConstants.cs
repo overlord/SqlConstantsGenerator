@@ -2,8 +2,8 @@
 
 namespace SqlConstantsGenerator.Tests.TestData
 {
-	[SqlConstantProvider]
-	public static class StaticClassConstants
+	[SqlConstantContainer]
+	internal static class StaticClassConstants
 	{
 		[SqlConstant] public static readonly string StringNull = null;
 		[SqlConstant] public static readonly string StringEmpty = "";

@@ -7,14 +7,14 @@ namespace SqlConstantsGenerator.Helpers
 {
 	internal static class AttributeHelper
 	{
-		public static CustomAttributeData GetConstantProviderData(Type type)
+		public static CustomAttributeData GetConstantContainerData(Type type)
 		{
-			return GetAttributeData<SqlConstantProviderAttribute>(type);
+			return GetAttributeData<SqlConstantContainerAttribute>(type);
 		}
 
 		public static string GetViewName(CustomAttributeData data)
 		{
-			return GetAttributeArgumentValue(data, nameof(SqlConstantProviderAttribute.ViewName))?.ToString();
+			return GetAttributeArgumentValue(data, nameof(SqlConstantContainerAttribute.ViewName))?.ToString();
 		}
 
 		public static string GetColumnName(MemberInfo pi)
@@ -47,15 +47,7 @@ namespace SqlConstantsGenerator.Helpers
 		public static CustomAttributeData GetAttributeData<TAttribute>(MemberInfo pi)
 			where TAttribute: Attribute
 		{
-			foreach (var data in pi.GetCustomAttributesData())
-			{
-				if (StringHelper.IsEqualStrings(data.AttributeType.FullName, typeof(TAttribute).FullName))
-				{
-					return data;
-				}
-			}
-
-			return null;
+			return pi.GetCustomAttributesData().FirstOrDefault(i => i.AttributeType == typeof(TAttribute));
 		}
 
 		private static object GetAttributeArgumentValue(CustomAttributeData attr, string argName)

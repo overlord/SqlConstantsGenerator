@@ -14,9 +14,6 @@ namespace SqlConstantsGenerator.BuildTasks
 		public IBuildEngine BuildEngine { get; set; }
 		public ITaskHost HostObject { get; set; }
 
-		private const string TypeNameReplaceString = "$typename$";
-		private readonly string _newLine = Environment.NewLine;
-
 		public string SourceAssemblyPath { get; set; }
 
 		//absolute path to generated files
@@ -43,7 +40,7 @@ namespace SqlConstantsGenerator.BuildTasks
 					new
 					{
 						UserType = i,
-						ConstantProviderData = AttributeHelper.GetConstantProviderData(i)
+						ConstantProviderData = AttributeHelper.GetConstantContainerData(i)
 					})
 				.Where(i => i.ConstantProviderData != null)
 				.ToList();
@@ -54,8 +51,8 @@ namespace SqlConstantsGenerator.BuildTasks
 
 				var generatedSql = SqlGenerator.GenerateSqlText(
 					definition,
-					StringHelper.DecodeArgument(EncodedTypePreCreateCode)?.Replace(TypeNameReplaceString, definition.ViewName),
-					StringHelper.DecodeArgument(EncodedTypePostCreateCode)?.Replace(TypeNameReplaceString, definition.ViewName)
+					StringHelper.DecodeArgument(EncodedTypePreCreateCode),
+					StringHelper.DecodeArgument(EncodedTypePostCreateCode)
 				);
 
 				var targetFile = Path.ChangeExtension(Path.Combine(DestinationFolder, StringHelper.GetSafeFilename(definition.ViewName)), "sql");
