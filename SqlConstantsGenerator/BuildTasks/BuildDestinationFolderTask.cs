@@ -7,6 +7,8 @@ namespace SqlConstantsGenerator.BuildTasks
 		public IBuildEngine BuildEngine { get; set; }
 		public ITaskHost HostObject { get; set; }
 
+		private const string DefaultDestinationFolder = "GeneratedSqlConstants";
+
 		[Output]
 		public string Path { get; set; }
 
@@ -15,11 +17,13 @@ namespace SqlConstantsGenerator.BuildTasks
 
 		public bool Execute()
 		{
-			Path = System.IO.Path.Combine(ProjectDir, "GeneratedSqlConstants");
-			if (!string.IsNullOrEmpty(Value))
+			if (string.IsNullOrEmpty(Value))
 			{
-				var trimmed = Value.TrimEnd('\\');
-				Path = System.IO.Path.GetFullPath(trimmed);
+				Path = System.IO.Path.Combine(ProjectDir, DefaultDestinationFolder);
+			}
+			else
+			{
+				Path = System.IO.Path.GetFullPath(Value.TrimEnd('\\'));
 			}
 
 			return true;

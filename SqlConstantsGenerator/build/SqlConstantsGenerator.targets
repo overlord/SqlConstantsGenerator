@@ -9,24 +9,32 @@
 		AssemblyFile="$(TargetDir)SqlConstantsGenerator.dll"
 	/>
 
-	<Target Name="CustomTarget" AfterTargets="Build" Condition="$(BuildingInsideVisualStudio) != '' OR $(SqlConstantsGenerator.LocalDbg) != '' ">
-		<ArgumentEncodeTask Value="$(SqlConstantsGenerator.TypePreCreateCode)">
-			<Output TaskParameter="EncodedArgument" PropertyName="EncodedTypePreCreateCode" />
+	<Target Name="CustomTarget" AfterTargets="Build" Condition=" $(BuildingInsideVisualStudio) != '' ">
+		<ArgumentEncodeTask Value="$(SqlConstantsGenerator_PrefixSql)">
+			<Output TaskParameter="EncodedArgument" PropertyName="EncodedPrefixSql" />
 		</ArgumentEncodeTask>
-		<ArgumentEncodeTask Value="$(SqlConstantsGenerator.TypePostCreateCode)">
-			<Output TaskParameter="EncodedArgument" PropertyName="EncodedTypePostCreateCode" />
+		<ArgumentEncodeTask Value="$(SqlConstantsGenerator_PostfixSql)">
+			<Output TaskParameter="EncodedArgument" PropertyName="EncodedPostfixSql" />
 		</ArgumentEncodeTask>
-		<BuildDestinationFolderTask Value="$(SqlConstantsGenerator.TargetFolder)" ProjectDir="$(ProjectDir)">
+		<BuildDestinationFolderTask Value="$(SqlConstantsGenerator_DestinationFolder)" ProjectDir="$(ProjectDir)">
 			<Output TaskParameter="Path" PropertyName="DestinationFolder" />
 		</BuildDestinationFolderTask>
 
-		<!-- run custom task via exec command - workaround for msbuild locking files ( https://connect.microsoft.com/VisualStudio/feedback/details/1047951/msbuild-locks-custom-task-assembly-dll ) -->
+		<!-- run custom task via exec command - workaround for msbuild locking files -->
+		<!-- ( https://connect.microsoft.com/VisualStudio/feedback/details/1047951/msbuild-locks-custom-task-assembly-dll ) -->
 		<!--
 			add backslash in property for prevent unwanted double-quote escaping in command line
 			example:
 				msbuild Project.csproj /p:SourceDir="C:\Path\" <- last quote escaped - error
 				msbuild Project.csproj /p:SourceDir="C:\Path\\" <- ok
 		-->
-		<Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(MSBuildThisFileDirectory)SqlConstantsGeneratorRunner.targets&quot; /p:TargetDir=&quot;$(TargetDir)\&quot; /p:SourceAssemblyPath=&quot;$(TargetPath)&quot; /p:DestinationFolder=&quot;$(DestinationFolder)&quot; /p:EncodedTypePreCreateCode=&quot;$(EncodedTypePreCreateCode)&quot; /p:EncodedTypePostCreateCode=&quot;$(EncodedTypePostCreateCode)&quot;"  />
+		<Exec Command="
+			&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(MSBuildThisFileDirectory)SqlConstantsGeneratorRunner.targets&quot; ^
+				/p:TargetDir=&quot;$(TargetDir)\&quot; ^
+				/p:SourceAssemblyPath=&quot;$(TargetPath)&quot; ^
+				/p:DestinationFolder=&quot;$(DestinationFolder)&quot; ^
+				/p:EncodedPrefixSql=&quot;$(EncodedPrefixSql)&quot; ^
+				/p:EncodedPostfixSql=&quot;$(EncodedPostfixSql)&quot;
+		"/>
 	</Target>
 </Project>

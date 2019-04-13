@@ -5,6 +5,9 @@ namespace SqlConstantsGenerator.BuildTasks
 {
 	public class ArgumentEncodeTask : ITask
 	{
+		public IBuildEngine BuildEngine { get; set; }
+		public ITaskHost HostObject { get; set; }
+
 		[Output]
 		public string EncodedArgument { get; set; }
 
@@ -12,11 +15,8 @@ namespace SqlConstantsGenerator.BuildTasks
 
 		public bool Execute()
 		{
-			EncodedArgument = !string.IsNullOrEmpty(Value) ? StringHelper.EncodeArgument(Value) : null;
+			EncodedArgument = StringHelper.ToBase64String(Value);
 			return true;
 		}
-
-		public IBuildEngine BuildEngine { get; set; }
-		public ITaskHost HostObject { get; set; }
 	}
 }

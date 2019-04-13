@@ -45,9 +45,12 @@ namespace SqlConstantsGenerator.Helpers
 		}
 
 		public static CustomAttributeData GetAttributeData<TAttribute>(MemberInfo pi)
-			where TAttribute: Attribute
+			where TAttribute : Attribute
 		{
-			return pi.GetCustomAttributesData().FirstOrDefault(i => i.AttributeType == typeof(TAttribute));
+			//!_! 'i.AttributeType' is ReflectionOnlyTime and 'typeof(TAttribute)' is RuntimeType,
+			//!_! so we must compare them by FullName
+			return pi.GetCustomAttributesData()
+				.FirstOrDefault(i => i.AttributeType.FullName == typeof(TAttribute).FullName);
 		}
 
 		private static object GetAttributeArgumentValue(CustomAttributeData attr, string argName)

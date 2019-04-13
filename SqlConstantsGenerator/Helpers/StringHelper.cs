@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 
 namespace SqlConstantsGenerator.Helpers
@@ -11,19 +10,14 @@ namespace SqlConstantsGenerator.Helpers
 			return string.Compare(s1, s2, StringComparison.InvariantCultureIgnoreCase) == 0;
 		}
 
-		public static string EncodeArgument(string arg)
+		public static string ToBase64String(string s)
 		{
-			return !string.IsNullOrEmpty(arg) ? Convert.ToBase64String(Encoding.UTF8.GetBytes(arg)) : null;
+			return string.IsNullOrEmpty(s) ? null : Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
 		}
 
-		public static string DecodeArgument(string arg)
+		public static string FromBase64String(string s)
 		{
-			return !string.IsNullOrEmpty(arg) ? Encoding.UTF8.GetString(Convert.FromBase64String(arg)) : null;
-		}
-
-		public static string GetSafeFilename(string filename)
-		{
-			return string.Join("", filename.Split(Path.GetInvalidFileNameChars()));
+			return !string.IsNullOrEmpty(s) ? Encoding.UTF8.GetString(Convert.FromBase64String(s)) : null;
 		}
 	}
 }

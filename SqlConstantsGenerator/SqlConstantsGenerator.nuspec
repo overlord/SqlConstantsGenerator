@@ -11,7 +11,7 @@
 	<summary> Generates SQL constants as sql-view from C# class or enum. </summary>
 	<licenseUrl>https://github.com/overlord/SqlConstantsGenerator/blob/master/LICENSE</licenseUrl>
 	<projectUrl>https://github.com/overlord/SqlConstantsGenerator</projectUrl>
-	<copyright>Copyright © 2019</copyright>
+	<copyright>Copyright © 2019 Kabanov Konstantin</copyright>
 	<dependencies />
 	<frameworkAssemblies>
 	  <frameworkAssembly assemblyName="Microsoft.Build.Framework"  />

@@ -142,6 +142,15 @@ go";
 			AssertEqualSql(expectedSql, generatedSql);
 		}
 
+		[Test]
+		public void GivenExecutingAssembly_ThenGenerateThroughBuildTask()
+		{
+			var worker = new SqlGeneratorTaskWorker("C:\\Temp", Assembly.GetExecutingAssembly().Location, null, null, null);
+			var generatedItems = worker.Generate();
+
+			//AssertEqualSql(expectedSql, generatedSql);
+		}
+
 		// ------------------------------------------------------------------------------------------
 
 		private static void AssertEqualSql(string expectedSql, string actualSql)

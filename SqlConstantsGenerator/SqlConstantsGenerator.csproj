@@ -49,7 +49,9 @@
     <Compile Include="BuildTasks\ArgumentEncodeTask.cs" />
     <Compile Include="BuildTasks\BuildDestinationFolderTask.cs" />
     <Compile Include="Engine\ConstantGenerator.cs" />
+    <Compile Include="Engine\SqlGeneratorTaskWorker.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
+    <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +81,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <!-- for local debug only -->
-    <PostBuildEvent>powershell -file $(SolutionDir)\SqlConstantsGenerator.Tools\CopyToPackages.ps1 -SolutionDir $(SolutionDir)</PostBuildEvent>
+    <PostBuildEvent>
+    	powershell ^
+				–ExecutionPolicy Unrestricted ^
+				–NonInteractive ^
+				-file $(SolutionDir)\SqlConstantsGenerator.Tools\CopyToPackages.ps1 ^
+				-SolutionDir $(SolutionDir)
+		</PostBuildEvent>
   </PropertyGroup>
 </Project>

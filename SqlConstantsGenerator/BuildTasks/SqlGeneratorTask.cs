@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Microsoft.Build.Framework;
+﻿using Microsoft.Build.Framework;
 using SqlConstantsGenerator.Engine;
 using SqlConstantsGenerator.Helpers;
 
@@ -14,67 +9,32 @@ namespace SqlConstantsGenerator.BuildTasks
 		public IBuildEngine BuildEngine { get; set; }
 		public ITaskHost HostObject { get; set; }
 
+		/// <summary> Absolute path to source assembly </summary>
 		public string SourceAssemblyPath { get; set; }
 
-		//absolute path to generated files
+		/// <summary> Absolute path for generated files </summary>
 		public string DestinationFolder { get; set; }
 
-		public string EncodedTypePreCreateCode { get; set; }
-		public string EncodedTypePostCreateCode { get; set; }
+		/// <summary> Base64-encoded prefix sql code </summary>
+		public string EncodedPrefixSql { get; set; }
+
+		/// <summary> Base64-encoded postfix sql code </summary>
+		public string EncodedPostfixSql { get; set; }
 
 		public bool Execute()
 		{
-			if (!Directory.Exists(DestinationFolder))
-			{
-				Directory.CreateDirectory(DestinationFolder);
-			}
-
-			AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += (o, e) => Assembly.ReflectionOnlyLoad(e.Name);
-
-			LoadDependentAssemblies(SourceAssemblyPath);
-
-			var assembly = Assembly.ReflectionOnlyLoadFrom(SourceAssemblyPath);
-
-			var types = assembly.GetTypes()
-				.Select(i =>
-					new
-					{
-						UserType = i,
-						ConstantProviderData = AttributeHelper.GetConstantContainerData(i)
-					})
-				.Where(i => i.ConstantProviderData != null)
-				.ToList();
-
-			foreach (var type in types)
-			{
-				var definition = SqlGenerator.GenerateDefinition(type.UserType, type.ConstantProviderData);
-
-				var generatedSql = SqlGenerator.GenerateSqlText(
-					definition,
-					StringHelper.DecodeArgument(EncodedTypePreCreateCode),
-					StringHelper.DecodeArgument(EncodedTypePostCreateCode)
-				);
-
-				var targetFile = Path.ChangeExtension(Path.Combine(DestinationFolder, StringHelper.GetSafeFilename(definition.ViewName)), "sql");
-
-				File.WriteAllText(targetFile, generatedSql, Encoding.UTF8);
-			}
-
-			return true;
+			return new SqlGeneratorTaskWorker(
+				DestinationFolder,
+				SourceAssemblyPath,
+				StringHelper.FromBase64String(EncodedPrefixSql),
+				StringHelper.FromBase64String(EncodedPostfixSql),
+				Log
+			).Execute();
 		}
 
-		private void LoadDependentAssemblies(string sourceAssemblyPath)
+		private void Log(string msg)
 		{
-			//load all assemblies in project output folder to reflection-only context
-			var directoryName = Path.GetDirectoryName(sourceAssemblyPath);
-
-			var files = Directory.GetFiles(directoryName)
-				.Where(f => StringHelper.IsEqualStrings(Path.GetExtension(f), ".dll"));
-
-			foreach (var file in files)
-			{
-				Assembly.ReflectionOnlyLoadFrom(file);
-			}
+			BuildEngine.LogMessageEvent(new BuildMessageEventArgs(msg, null, nameof(SqlGeneratorTask), MessageImportance.Normal));
 		}
 	}
 }

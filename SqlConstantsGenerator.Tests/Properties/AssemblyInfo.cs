@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SqlConstantsGenerator.Tests")]
-[assembly: AssemblyCopyright("Copyright © 2018")]
+[assembly: AssemblyCopyright("Copyright © 2019 Kabanov Konstantin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

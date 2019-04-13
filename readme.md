@@ -1,4 +1,4 @@
-# SqlConstantsGenerator
+п»ї# SqlConstantsGenerator
 
 ## Summary
 
@@ -7,31 +7,31 @@ Generates SQL constants as sql-view from C# class or enum.
 For example, for this class:
 
 ```csharp
-/// <summary> Роли пользователей </summary>
+/// <summary> Р РѕР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ </summary>
 [SqlConstantContainer(ViewName = "const_user_role_type")]
 internal enum UserRoleType
 {
-	/// <summary> Неизвестная роль </summary>
+	/// <summary> РќРµРёР·РІРµСЃС‚РЅР°СЏ СЂРѕР»СЊ </summary>
 	[SqlConstant(ColumnName = "unknown")] Unknown = 0,
 
-	/// <summary> Клиент </summary>
+	/// <summary> РљР»РёРµРЅС‚ </summary>
 	[SqlConstant(ColumnName = "client")] Client = 1,
 
-	/// <summary> Супер администратор </summary>
+	/// <summary> РЎСѓРїРµСЂ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ </summary>
 	[SqlConstant(ColumnName = "super_admin")]
 	SuperAdmin = 2,
 
-	/// <summary> Технический администратор </summary>
+	/// <summary> РўРµС…РЅРёС‡РµСЃРєРёР№ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ </summary>
 	[SqlConstant(ColumnName = "technical_admin")]
 	TechnicalAdmin = 3,
 
-	/// <summary> Маркетолог </summary>
+	/// <summary> РњР°СЂРєРµС‚РѕР»РѕРі </summary>
 	[SqlConstant(ColumnName = "marketer")] Marketer = 4,
 
-	/// <summary> Тестировщик </summary>
+	/// <summary> РўРµСЃС‚РёСЂРѕРІС‰РёРє </summary>
 	[SqlConstant(ColumnName = "tester")] Tester = 5,
 
-	/// <summary> Клиентская поддержка </summary>
+	/// <summary> РљР»РёРµРЅС‚СЃРєР°СЏ РїРѕРґРґРµСЂР¶РєР° </summary>
 	[SqlConstant(ColumnName = "client_support")]
 	ClientSupport = 6,
 }
@@ -69,8 +69,8 @@ Install-Package SqlConstantsGenerator
 
 ## Notes
 
-* Output folder for generated files can be customized by setting `SqlConstantsGenerator.TargetFolder` property in csproj file.
-* Type pre-create and post-create code can be set via `SqlConstantsGenerator.TypePreCreateCode` and `SqlConstantsGenerator.TypePostCreateCode` properties; 
-  `$typename$` string in this code will replaced to generated type name.
+* Output folder for generated files can be customized by setting `SqlConstantsGenerator_DestinationFolder` property in csproj file.
+* Prefix and postfix sql code can be set via `SqlConstantsGenerator_PrefixSql` and `SqlConstantsGenerator_PostfixSql` properties;
+  `$viewname$` string in this code will replaced by generated view name.
 
 (see file `SqlConstantsGenerator.Tools\SqlConstantsGenerator.GlobalProps.props` file in sample DbClassesWithCustomSqlFolder project)
