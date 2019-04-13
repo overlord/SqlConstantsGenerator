@@ -1,4 +1,5 @@
-﻿using SqlConstantsGenerator.Attributes;
+﻿using System;
+using SqlConstantsGenerator.Attributes;
 
 namespace SqlConstantsGenerator.Tests.TestData
 {
@@ -22,5 +23,9 @@ namespace SqlConstantsGenerator.Tests.TestData
 		[SqlConstant] public static readonly EnumConstants EnumValue1 = EnumConstants.Value1;
 		[SqlConstant] public static readonly EnumConstants? EnumNullableValueTwo = EnumConstants.ValueTwo;
 		[SqlConstant] public static readonly EnumConstants? EnumNullableNull = null;
+
+		[SqlConstant] public static readonly DateTime DateTime010101 = new DateTime(1, 1, 1);
+		[SqlConstant] public static readonly DateTime? DateTimeNullableNull = null;
+		[SqlConstant] public static readonly DateTime? DateTimeNullable010101 = new DateTime(1, 1, 1);
 	}
 }

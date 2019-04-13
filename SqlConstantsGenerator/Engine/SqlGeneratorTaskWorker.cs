@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using SqlConstantsGenerator.Attributes;
 using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.Engine
@@ -66,14 +67,10 @@ namespace SqlConstantsGenerator.Engine
 
 			var assembly = CustomLoadFrom(_sourceAssemblyPath);
 
+			var generatorOptions = AttributeHelper.GetGeneratorOptions(assembly);
+
 			var types = assembly.GetTypes()
-				.Select(i =>
-					new
-					{
-						UserType = i,
-						ConstantProviderData = AttributeHelper.GetConstantContainerData(i)
-					})
-				.Where(i => i.ConstantProviderData != null)
+				.Where(AttributeHelper.HasAttribute<SqlConstantContainerAttribute>)
 				.ToList();
 
 			_logger?.Invoke($"Found {types.Count} types to generate");
@@ -82,10 +79,14 @@ namespace SqlConstantsGenerator.Engine
 
 			foreach (var type in types)
 			{
-				var definition = SqlGenerator.GenerateDefinition(type.UserType, type.ConstantProviderData);
-				var generatedSql = SqlGenerator.GenerateSqlText(definition, _prefixSql, _postfixSql);
-				var targetFile = Path.ChangeExtension(Path.Combine(_destinationFolder, PathHelper.GetSafeFilename(definition.ViewName)), "sql");
-				result.Add((definition, generatedSql, targetFile));
+				var definition = SqlGenerator.GenerateDefinition(type);
+				var sql = SqlGenerator.GenerateSqlText(
+					definition,
+					generatorOptions?.PrefixSql ?? _prefixSql,
+					generatorOptions?.PostfixSql ?? _postfixSql
+				);
+				var targetPath = Path.ChangeExtension(Path.Combine(_destinationFolder, PathHelper.GetSafeFilename(definition.ViewName)), "sql");
+				result.Add((definition, sql, targetPath));
 			}
 
 			return result;

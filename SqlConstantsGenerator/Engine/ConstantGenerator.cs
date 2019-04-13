@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using SqlConstantsGenerator.Attributes;
 using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.Engine
@@ -8,16 +9,18 @@ namespace SqlConstantsGenerator.Engine
 	{
 		private readonly MemberInfo _propertyInfo;
 		private readonly Type _propertyInfoType;
+		private readonly SqlConstantAttribute _constant;
 
 		public ConstantGenerator(MemberInfo propertyInfo)
 		{
 			_propertyInfo = propertyInfo;
 			_propertyInfoType = TypeHelper.ExtractNonNullableType(_propertyInfo);
+			_constant = AttributeHelper.GetConstant(_propertyInfo);
 		}
 
 		public string GetName()
 		{
-			return AttributeHelper.GetColumnName(_propertyInfo) ?? _propertyInfo.Name;
+			return _constant?.ColumnName ?? _propertyInfo.Name;
 		}
 
 		public string GetValue()
@@ -39,7 +42,7 @@ namespace SqlConstantsGenerator.Engine
 			{
 				return $"{(int)propValue}";
 			}
-			
+
 			if (_propertyInfoType == typeof(int))
 			{
 				return $"{propValue}";
@@ -50,12 +53,17 @@ namespace SqlConstantsGenerator.Engine
 				return $"'{propValue}'";
 			}
 
+			if (_propertyInfoType == typeof(DateTime))
+			{
+				return $"convert(datetime, '{((DateTime)propValue).ToString("yyyy-MM-dd HH:mm:ss")}', 120)";
+			}
+
 			return "???";
 		}
 
 		public string GetComment()
 		{
-			return AttributeHelper.GetColumnComment(_propertyInfo);
+			return _constant?.Comment;
 		}
 	}
 }

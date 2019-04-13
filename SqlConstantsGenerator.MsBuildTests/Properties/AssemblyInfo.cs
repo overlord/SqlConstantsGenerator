@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using SqlConstantsGenerator.Attributes;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -33,3 +34,10 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: SqlConstantsGeneratorOptions(
+	PrefixSql = @"if(object_id(N'[$viewname$]', N'V') is not null) drop view [$viewname$];
+go",
+	PostfixSql = @"print 'View [$viewname$] created successfully.';
+go"
+)]

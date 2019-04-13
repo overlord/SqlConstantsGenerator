@@ -12,15 +12,15 @@ namespace SqlConstantsGenerator.Engine
 
 		internal static SqlConstantDefinition GenerateDefinition(Type type)
 		{
-			var constantProviderData = AttributeHelper.GetConstantContainerData(type);
-			return GenerateDefinition(type, constantProviderData);
-		}
+			var constantContainer = AttributeHelper.GetConstantContainer(type);
+			if (constantContainer == null)
+			{
+				return null;
+			}
 
-		internal static SqlConstantDefinition GenerateDefinition(Type type, CustomAttributeData constantProviderData)
-		{
 			return new SqlConstantDefinition
 			{
-				ViewName = AttributeHelper.GetViewName(constantProviderData) ?? type.Name,
+				ViewName = constantContainer.ViewName ?? type.Name,
 				Columns = TypeHelper.GetStaticMembers(type)
 					.Select(GenerateConstantLine)
 					.Where(s => !string.IsNullOrEmpty(s))

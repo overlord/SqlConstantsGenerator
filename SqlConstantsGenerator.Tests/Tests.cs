@@ -57,7 +57,7 @@ go";
 		}
 
 		[Test]
-		public void GivenEnumNamed_ThenGenerateSqlView()
+		public void GivenEnumNamedPrefixAndPostfix_ThenGenerateSqlView()
 		{
 			const string sqlPrefix = @"if(object_id(N'[$viewname$]', N'V') is not null) drop view [$viewname$];
 go";
@@ -107,7 +107,10 @@ select
 	null as IntNullableNull,
 	1 as EnumValue1,
 	2 as EnumNullableValueTwo,
-	null as EnumNullableNull
+	null as EnumNullableNull,
+	convert(datetime, '0001-01-01 00:00:00', 120) as DateTime010101,
+	null as DateTimeNullableNull,
+	convert(datetime, '0001-01-01 00:00:00', 120) as DateTimeNullable010101
 ;
 go";
 

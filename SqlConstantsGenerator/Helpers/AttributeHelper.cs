@@ -7,33 +7,60 @@ namespace SqlConstantsGenerator.Helpers
 {
 	internal static class AttributeHelper
 	{
-		public static CustomAttributeData GetConstantContainerData(Type type)
+		public static SqlConstantContainerAttribute GetConstantContainer(Type type)
 		{
-			return GetAttributeData<SqlConstantContainerAttribute>(type);
+			var data = GetAttributeData<SqlConstantContainerAttribute>(type);
+			if (data == null)
+			{
+				return null;
+			}
+
+			return new SqlConstantContainerAttribute
+			{
+				ViewName = GetAttributeArgumentValue<string>(data, nameof(SqlConstantContainerAttribute.ViewName)),
+			};
 		}
 
-		public static string GetViewName(CustomAttributeData data)
+		public static SqlConstantsGeneratorOptionsAttribute GetGeneratorOptions(Assembly assembly)
 		{
-			return GetAttributeArgumentValue(data, nameof(SqlConstantContainerAttribute.ViewName))?.ToString();
+			var data = GetAttributeData<SqlConstantsGeneratorOptionsAttribute>(assembly);
+			if (data == null)
+			{
+				return null;
+			}
+
+			return new SqlConstantsGeneratorOptionsAttribute
+			{
+				PrefixSql = GetAttributeArgumentValue<string>(data, nameof(SqlConstantsGeneratorOptionsAttribute.PrefixSql)),
+				PostfixSql = GetAttributeArgumentValue<string>(data, nameof(SqlConstantsGeneratorOptionsAttribute.PostfixSql)),
+			};
 		}
 
-		public static string GetColumnName(MemberInfo pi)
+		public static SqlConstantAttribute GetConstant(MemberInfo pi)
 		{
-			var customAttributeData = GetAttributeData<SqlConstantAttribute>(pi);
-			return GetAttributeValue<string>(customAttributeData, nameof(SqlConstantAttribute.ColumnName));
+			var data = GetAttributeData<SqlConstantAttribute>(pi);
+			if (data == null)
+			{
+				return null;
+			}
+
+			return new SqlConstantAttribute
+			{
+				ColumnName = GetAttributeArgumentValue<string>(data, nameof(SqlConstantAttribute.ColumnName)),
+				Comment = GetAttributeArgumentValue<string>(data, nameof(SqlConstantAttribute.Comment)),
+			};
 		}
 
-		public static string GetColumnComment(MemberInfo pi)
+		private static TResult GetAttributeArgumentValue<TResult>(CustomAttributeData data, string attributeArgumentName)
 		{
-			var customAttributeData = GetAttributeData<SqlConstantAttribute>(pi);
-			return GetAttributeValue<string>(customAttributeData, nameof(SqlConstantAttribute.Comment));
-		}
+			var attrValue = data?.NamedArguments?
+				.FirstOrDefault(i => StringHelper.IsEqualStrings(i.MemberName, attributeArgumentName))
+				.TypedValue.Value;
 
-		private static TResult GetAttributeValue<TResult>(CustomAttributeData data, string attrName)
-		{
-			var attrValue = GetAttributeArgumentValue(data, attrName);
 			if (attrValue == null)
+			{
 				return default(TResult);
+			}
 
 			var type = TypeHelper.ExtractNonNullableType<TResult>();
 			if (type.IsEnum)
@@ -44,20 +71,28 @@ namespace SqlConstantsGenerator.Helpers
 			return (TResult)Convert.ChangeType(attrValue, type);
 		}
 
+		public static CustomAttributeData GetAttributeData<TAttribute>(Assembly assembly)
+			where TAttribute : Attribute
+		{
+			//!_! 'i.AttributeType' can be ReflectionOnlyTime and 'typeof(TAttribute)' can be RuntimeType,
+			//!_! so we must compare them by FullName
+			return assembly.GetCustomAttributesData()
+				.FirstOrDefault(i => i.AttributeType.FullName == typeof(TAttribute).FullName);
+		}
+
 		public static CustomAttributeData GetAttributeData<TAttribute>(MemberInfo pi)
 			where TAttribute : Attribute
 		{
-			//!_! 'i.AttributeType' is ReflectionOnlyTime and 'typeof(TAttribute)' is RuntimeType,
+			//!_! 'i.AttributeType' can be ReflectionOnlyTime and 'typeof(TAttribute)' can be RuntimeType,
 			//!_! so we must compare them by FullName
 			return pi.GetCustomAttributesData()
 				.FirstOrDefault(i => i.AttributeType.FullName == typeof(TAttribute).FullName);
 		}
 
-		private static object GetAttributeArgumentValue(CustomAttributeData attr, string argName)
+		public static bool HasAttribute<TAttribute>(Type type)
+			where TAttribute : Attribute
 		{
-			return attr?.NamedArguments?
-				.FirstOrDefault(na => StringHelper.IsEqualStrings(na.MemberName, argName))
-				.TypedValue.Value;
+			return GetAttributeData<TAttribute>(type) != null;
 		}
 	}
 }
