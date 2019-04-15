@@ -4,9 +4,13 @@ using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.BuildTasks
 {
+	/// <summary> Generate Sql Constant Build Task  </summary>
 	public class SqlGeneratorTask : ITask
 	{
+		/// <inheritdoc />
 		public IBuildEngine BuildEngine { get; set; }
+
+		/// <inheritdoc />
 		public ITaskHost HostObject { get; set; }
 
 		/// <summary> Absolute path to source assembly </summary>
@@ -21,6 +25,7 @@ namespace SqlConstantsGenerator.BuildTasks
 		/// <summary> Base64-encoded postfix sql code </summary>
 		public string EncodedPostfixSql { get; set; }
 
+		/// <inheritdoc />
 		public bool Execute()
 		{
 			return new SqlGeneratorTaskWorker(

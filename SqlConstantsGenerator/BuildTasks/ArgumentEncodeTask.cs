@@ -3,19 +3,27 @@ using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.BuildTasks
 {
+	/// <summary> Build task to perform Base64 encodeing over input value </summary>
+	/// <inheritdoc />
 	public class ArgumentEncodeTask : ITask
 	{
+		/// <inheritdoc />
 		public IBuildEngine BuildEngine { get; set; }
+
+		/// <inheritdoc />
 		public ITaskHost HostObject { get; set; }
 
+		/// <summary> Output base64-encoded value </summary>
 		[Output]
-		public string EncodedArgument { get; set; }
+		public string OutputValue { get; set; }
 
-		public string Value { get; set; }
+		/// <summary> Input value </summary>
+		public string InputValue { get; set; }
 
+		/// <inheritdoc />
 		public bool Execute()
 		{
-			EncodedArgument = StringHelper.ToBase64String(Value);
+			OutputValue = StringHelper.ToBase64String(InputValue);
 			return true;
 		}
 	}

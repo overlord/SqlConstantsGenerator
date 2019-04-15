@@ -10,14 +10,19 @@
 	/>
 
 	<Target Name="CustomTarget" AfterTargets="Build" Condition=" $(BuildingInsideVisualStudio) != '' ">
-		<ArgumentEncodeTask Value="$(SqlConstantsGenerator_PrefixSql)">
-			<Output TaskParameter="EncodedArgument" PropertyName="EncodedPrefixSql" />
+		<ArgumentEncodeTask InputValue="$(SqlConstantsGenerator_PrefixSql)">
+			<Output TaskParameter="OutputValue" PropertyName="EncodedPrefixSql" />
 		</ArgumentEncodeTask>
-		<ArgumentEncodeTask Value="$(SqlConstantsGenerator_PostfixSql)">
-			<Output TaskParameter="EncodedArgument" PropertyName="EncodedPostfixSql" />
+		<ArgumentEncodeTask InputValue="$(SqlConstantsGenerator_PostfixSql)">
+			<Output TaskParameter="OutputValue" PropertyName="EncodedPostfixSql" />
 		</ArgumentEncodeTask>
-		<BuildDestinationFolderTask Value="$(SqlConstantsGenerator_DestinationFolder)" ProjectDir="$(ProjectDir)">
-			<Output TaskParameter="Path" PropertyName="DestinationFolder" />
+		<BuildDestinationFolderTask
+			SolutionDir="$(SolutionDir)"
+			ProjectDir="$(ProjectDir)"
+			SourceAssemblyPath="$(TargetPath)"
+			InputValue="$(SqlConstantsGenerator_DestinationFolder)"
+		>
+			<Output TaskParameter="OutputValue" PropertyName="DestinationFolder" />
 		</BuildDestinationFolderTask>
 
 		<!-- run custom task via exec command - workaround for msbuild locking files -->

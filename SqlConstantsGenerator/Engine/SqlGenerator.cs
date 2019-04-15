@@ -6,7 +6,7 @@ using SqlConstantsGenerator.Helpers;
 
 namespace SqlConstantsGenerator.Engine
 {
-	public static class SqlGenerator
+	internal static class SqlGenerator
 	{
 		private const string ViewNamePlaceholder = "$viewname$";
 
