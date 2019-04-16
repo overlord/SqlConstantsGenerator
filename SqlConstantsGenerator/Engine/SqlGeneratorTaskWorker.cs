@@ -29,6 +29,11 @@ namespace SqlConstantsGenerator.Engine
 			_prefixSql = prefixSql;
 			_postfixSql = postfixSql;
 			_logger = logger;
+
+			logger?.Invoke($@"------------------------------
+Destination Folder:   '{destinationFolder}'
+Source Assembly Path: '{sourceAssemblyPath}'
+------------------------------");
 		}
 
 		public bool Execute()

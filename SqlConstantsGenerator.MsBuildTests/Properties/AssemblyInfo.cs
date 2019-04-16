@@ -40,4 +40,6 @@ using SqlConstantsGenerator.Attributes;
 go",
 	PostfixSql = @"print 'View [$viewname$] created successfully.';
 go"
+	//DestinationFolder = "C:\\temp\\DbConstants"
+	//DestinationFolder = "$SolutionDir$\\DbConstants"
 )]

@@ -16,12 +16,12 @@
 		<ArgumentEncodeTask InputValue="$(SqlConstantsGenerator_PostfixSql)">
 			<Output TaskParameter="OutputValue" PropertyName="EncodedPostfixSql" />
 		</ArgumentEncodeTask>
+
 		<BuildDestinationFolderTask
 			SolutionDir="$(SolutionDir)"
 			ProjectDir="$(ProjectDir)"
 			SourceAssemblyPath="$(TargetPath)"
-			InputValue="$(SqlConstantsGenerator_DestinationFolder)"
-		>
+			InputValue="$(SqlConstantsGenerator_DestinationFolder)">
 			<Output TaskParameter="OutputValue" PropertyName="DestinationFolder" />
 		</BuildDestinationFolderTask>
 
@@ -33,8 +33,7 @@
 				msbuild Project.csproj /p:SourceDir="C:\Path\" <- last quote escaped - error
 				msbuild Project.csproj /p:SourceDir="C:\Path\\" <- ok
 		-->
-		<Exec Command="
-			&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(MSBuildThisFileDirectory)SqlConstantsGeneratorRunner.targets&quot; ^
+		<Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(MSBuildThisFileDirectory)SqlConstantsGeneratorRunner.targets&quot; ^
 				/p:TargetDir=&quot;$(TargetDir)\&quot; ^
 				/p:SourceAssemblyPath=&quot;$(TargetPath)&quot; ^
 				/p:DestinationFolder=&quot;$(DestinationFolder)&quot; ^
@@ -43,3 +42,5 @@
 		"/>
 	</Target>
 </Project>
+
+

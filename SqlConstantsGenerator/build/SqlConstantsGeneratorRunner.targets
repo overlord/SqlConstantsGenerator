@@ -5,6 +5,10 @@
 		AssemblyFile="$(TargetDir)SqlConstantsGenerator.dll"
 	/>
 	<Target Name="SqlConstantsGeneratorTask">
+		<!-- <Message Text="SourceAssemblyPath: $(SourceAssemblyPath)" /> -->
+		<!-- <Message Text="DestinationFolder: $(DestinationFolder)" /> -->
+		<!-- <Message Text="EncodedPrefixSql: $(EncodedPrefixSql)" /> -->
+		<!-- <Message Text="EncodedPostfixSql: $(EncodedPostfixSql)" /> -->
 		<SqlGeneratorTask
 			SourceAssemblyPath="$(SourceAssemblyPath)"
 			DestinationFolder="$(DestinationFolder)"

@@ -148,7 +148,7 @@ go";
 		[Test]
 		public void GivenExecutingAssembly_ThenGenerateThroughBuildTask()
 		{
-			var worker = new SqlGeneratorTaskWorker("C:\\Temp", Assembly.GetExecutingAssembly().Location, null, null, null);
+			var worker = new SqlGeneratorTaskWorker("C:\\temp\\DbConstants", Assembly.GetExecutingAssembly().Location, null, null, null);
 			var generatedItems = worker.Generate();
 
 			//AssertEqualSql(expectedSql, generatedSql);

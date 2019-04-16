@@ -5,14 +5,8 @@ namespace SqlConstantsGenerator.BuildTasks
 {
 	/// <summary> Build task to perform Base64 encodeing over input value </summary>
 	/// <inheritdoc />
-	public class ArgumentEncodeTask : ITask
+	public class ArgumentEncodeTask : TaskBase
 	{
-		/// <inheritdoc />
-		public IBuildEngine BuildEngine { get; set; }
-
-		/// <inheritdoc />
-		public ITaskHost HostObject { get; set; }
-
 		/// <summary> Output base64-encoded value </summary>
 		[Output]
 		public string OutputValue { get; set; }
@@ -21,7 +15,7 @@ namespace SqlConstantsGenerator.BuildTasks
 		public string InputValue { get; set; }
 
 		/// <inheritdoc />
-		public bool Execute()
+		public override bool Execute()
 		{
 			OutputValue = StringHelper.ToBase64String(InputValue);
 			return true;

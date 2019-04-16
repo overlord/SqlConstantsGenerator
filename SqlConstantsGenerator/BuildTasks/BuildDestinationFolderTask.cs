@@ -6,14 +6,8 @@ namespace SqlConstantsGenerator.BuildTasks
 {
 	/// <summary> Task for building destination path for output scripts </summary>
 	/// <inheritdoc />
-	public class BuildDestinationFolderTask : ITask
+	public class BuildDestinationFolderTask : TaskBase
 	{
-		/// <inheritdoc />
-		public IBuildEngine BuildEngine { get; set; }
-
-		/// <inheritdoc />
-		public ITaskHost HostObject { get; set; }
-
 		private const string DefaultDestinationFolder = "GeneratedSqlConstants";
 
 		/// <summary> Input destination folder </summary>
@@ -33,7 +27,7 @@ namespace SqlConstantsGenerator.BuildTasks
 		public string SourceAssemblyPath { get; set; }
 
 		/// <inheritdoc />
-		public bool Execute()
+		public override bool Execute()
 		{
 			if (!string.IsNullOrWhiteSpace(InputValue))
 			{

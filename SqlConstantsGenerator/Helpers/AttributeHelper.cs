@@ -18,6 +18,7 @@ namespace SqlConstantsGenerator.Helpers
 			return new SqlConstantContainerAttribute
 			{
 				ViewName = GetAttributeArgumentValue<string>(data, nameof(SqlConstantContainerAttribute.ViewName)),
+				Comment = GetAttributeArgumentValue<string>(data, nameof(SqlConstantContainerAttribute.Comment)),
 			};
 		}
 
@@ -31,6 +32,7 @@ namespace SqlConstantsGenerator.Helpers
 
 			return new SqlConstantsGeneratorOptionsAttribute
 			{
+				DestinationFolder = GetAttributeArgumentValue<string>(data, nameof(SqlConstantsGeneratorOptionsAttribute.DestinationFolder)),
 				PrefixSql = GetAttributeArgumentValue<string>(data, nameof(SqlConstantsGeneratorOptionsAttribute.PrefixSql)),
 				PostfixSql = GetAttributeArgumentValue<string>(data, nameof(SqlConstantsGeneratorOptionsAttribute.PostfixSql)),
 			};
@@ -72,7 +74,7 @@ namespace SqlConstantsGenerator.Helpers
 		}
 
 		public static CustomAttributeData GetAttributeData<TAttribute>(Assembly assembly)
-			where TAttribute : Attribute
+			where TAttribute: Attribute
 		{
 			//!_! 'i.AttributeType' can be ReflectionOnlyTime and 'typeof(TAttribute)' can be RuntimeType,
 			//!_! so we must compare them by FullName
@@ -81,7 +83,7 @@ namespace SqlConstantsGenerator.Helpers
 		}
 
 		public static CustomAttributeData GetAttributeData<TAttribute>(MemberInfo pi)
-			where TAttribute : Attribute
+			where TAttribute: Attribute
 		{
 			//!_! 'i.AttributeType' can be ReflectionOnlyTime and 'typeof(TAttribute)' can be RuntimeType,
 			//!_! so we must compare them by FullName
@@ -90,7 +92,7 @@ namespace SqlConstantsGenerator.Helpers
 		}
 
 		public static bool HasAttribute<TAttribute>(Type type)
-			where TAttribute : Attribute
+			where TAttribute: Attribute
 		{
 			return GetAttributeData<TAttribute>(type) != null;
 		}
