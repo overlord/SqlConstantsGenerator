@@ -73,4 +73,4 @@ Install-Package SqlConstantsGenerator
 * Prefix and postfix sql code can be set via `SqlConstantsGenerator_PrefixSql` and `SqlConstantsGenerator_PostfixSql` properties;
   `$viewname$` string in this code will replaced by generated view name.
 
-(see file `SqlConstantsGenerator.Tools\SqlConstantsGenerator.GlobalProps.props` file in sample DbClassesWithCustomSqlFolder project)
+(see file `SqlConstantsGenerator.Tools\SqlConstantsGenerator.props` file in sample DbClassesWithCustomSqlFolder project)

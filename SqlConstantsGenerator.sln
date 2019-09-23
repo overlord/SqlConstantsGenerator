@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlConstantsGenerator", "SqlConstantsGenerator\SqlConstantsGenerator.csproj", "{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}"
 EndProject
@@ -19,7 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlConstantsGenerator.Tools", "SqlConstantsGenerator.Tools", "{4A7BC796-0045-48FB-8CBD-4DEC44BEB553}"
 	ProjectSection(SolutionItems) = preProject
 		SqlConstantsGenerator.Tools\CopyToPackages.ps1 = SqlConstantsGenerator.Tools\CopyToPackages.ps1
-		SqlConstantsGenerator.Tools\SqlConstantsGenerator.GlobalProps.props = SqlConstantsGenerator.Tools\SqlConstantsGenerator.GlobalProps.props
+		SqlConstantsGenerator.Tools\SqlConstantsGenerator.props = SqlConstantsGenerator.Tools\SqlConstantsGenerator.props
 	EndProjectSection
 EndProject
 Global
@@ -34,16 +34,16 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|x64.ActiveCfg = Debug|x64
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|x64.Build.0 = Debug|x64
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|x64.ActiveCfg = DebugLocal|x64
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|x64.Build.0 = DebugLocal|x64
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Debug|x64.Build.0 = Debug|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|x64.ActiveCfg = Debug|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.DebugLocal|x64.Build.0 = Debug|Any CPU
 		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|x64.ActiveCfg = Release|x64
-		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|x64.Build.0 = Release|x64
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|x64.ActiveCfg = Release|Any CPU
+		{11E808BF-CCE0-4B3B-9A9C-6C6A11041AF6}.Release|x64.Build.0 = Release|Any CPU
 		{93D2F48A-432B-47A5-9B53-64508DE2A1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93D2F48A-432B-47A5-9B53-64508DE2A1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D2F48A-432B-47A5-9B53-64508DE2A1B9}.Debug|x64.ActiveCfg = Debug|x64
